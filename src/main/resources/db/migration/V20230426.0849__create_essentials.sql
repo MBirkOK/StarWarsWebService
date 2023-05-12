@@ -1,18 +1,14 @@
-CREATE TABLE tab_starwars_planet_terrain
-(
-    id      uuid PRIMARY KEY,
-    terrain varchar
-);
-
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE tab_starwars_planet
 (
-    id               uuid PRIMARY KEY,
+    id               uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     planet_name      varchar,
     diameter         numeric,
-    rotationDuration time,
-    gravity          numeric,
-    climate          double precision,
+    rotationDuration numeric,
+    gravity          varchar,
+    climate          varchar,
+    terrain          varchar,
     surface_water    double precision
 );
 
@@ -31,14 +27,14 @@ CREATE TABLE tab_starwars_film
 
 CREATE TABLE tab_starwars_characters
 (
-    id         uuid PRIMARY KEY,
+    id         uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     given_name varchar,
     height     double precision,
     mass       numeric,
     haircolor  varchar,
     skinColor  varchar,
     eyeColor   varchar,
-    birthday   date,
+    birthday   varchar,
     gender     varchar,
     homeworld  uuid,
     FOREIGN KEY (homeworld) REFERENCES tab_starwars_planet (id)

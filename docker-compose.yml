@@ -6,6 +6,8 @@ services:
     build:
       context: .
     container_name: StarWars
+    ports:
+      - 8080:8080
     depends_on:
       - "star-wars-db"
     networks:

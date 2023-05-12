@@ -1,12 +1,3 @@
-CREATE TABLE tab_starwars_planet_terrain_join
-(
-    planet_id  uuid,
-    terrain_id uuid,
-    FOREIGN KEY (terrain_id) REFERENCES tab_starwars_planet_terrain (id),
-    FOREIGN KEY (planet_id) REFERENCES tab_starwars_planet (id),
-    PRIMARY KEY (planet_id, terrain_id)
-);
-
 CREATE TABLE tab_starwars_people_planet_join
 (
     planet_id uuid,
