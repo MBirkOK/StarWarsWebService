@@ -9,7 +9,9 @@ CREATE TABLE tab_starwars_planet
     gravity          varchar,
     climate          varchar,
     terrain          varchar,
-    surface_water    double precision
+    surface_water    double precision,
+    orbital          varchar,
+    population       varchar
 );
 
 

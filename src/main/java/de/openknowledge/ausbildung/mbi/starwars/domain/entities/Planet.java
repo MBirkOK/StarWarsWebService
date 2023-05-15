@@ -1,7 +1,6 @@
 package de.openknowledge.ausbildung.mbi.starwars.domain.entities;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,12 +38,18 @@ public class Planet {
   @Column
   private Double surfaceWater;
 
+  @Column
+  private String orbital;
+
+  @Column
+  private String population;
+
   protected Planet() {
     //for JPA
   }
 
   public Planet(UUID id, String name, Double diameter, Double rotationPeriod, String gravity, String climate,
-                String terrain, Double surfaceWater) {
+                String terrain, Double surfaceWater, String orbital, String population) {
     this.id = id;
     this.name = name;
     this.diameter = diameter;
@@ -53,9 +58,12 @@ public class Planet {
     this.climate = climate;
     this.terrain = terrain;
     this.surfaceWater = surfaceWater;
+    this.orbital = orbital;
+    this.population = population;
   }
 
-  public Planet(String name, Double diameter, Double rotationPeriod, String gravity, String climate, String terrain, Double surfaceWater) {
+  public Planet(String name, Double diameter, Double rotationPeriod, String gravity, String climate, String terrain,
+                Double surfaceWater, String orbital, String population) {
     this.name = name;
     this.diameter = diameter;
     this.rotationPeriod = rotationPeriod;
@@ -63,6 +71,8 @@ public class Planet {
     this.climate = climate;
     this.terrain = terrain;
     this.surfaceWater = surfaceWater;
+    this.orbital = orbital;
+    this.population = population;
   }
 
   public UUID getId() {
@@ -100,6 +110,6 @@ public class Planet {
   public static Planet of(PlanetValue planetValue) {
     return new Planet(planetValue.getName(), planetValue.getDiameter(), planetValue.getRotationPeriod(),
       planetValue.getGravity(), planetValue.getClimate(), planetValue.getTerrain(),
-      Double.parseDouble(planetValue.getSurfaceWater()));
+      Double.parseDouble(planetValue.getSurfaceWater()), planetValue.getOrbitalPeriod(), planetValue.getPopulation());
   }
 }

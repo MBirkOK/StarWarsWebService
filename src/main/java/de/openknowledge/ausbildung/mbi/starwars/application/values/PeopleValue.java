@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.value_obj.PersonInfo;
 
 
 /**
@@ -168,18 +169,17 @@ public class PeopleValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PeopleValue(UUID id, String name, String height, String mass, String hairColor, String skinColor,
-    String eyeColor, String birthYear, String gender, String homeworld) {
+  public PeopleValue(UUID id, PersonInfo personInfo) {
     this.id = id;
-    this.name = name;
-    this.height = height;
-    this.mass = mass;
-    this.hairColor = hairColor;
-    this.skinColor = skinColor;
-    this.eyeColor = eyeColor;
-    this.birthYear = birthYear;
-    this.gender = gender;
-    this.homeworld = homeworld;
+    this.name = personInfo.getName();
+    this.height = personInfo.getHeight();
+    this.mass = personInfo.getMass();
+    this.hairColor = personInfo.getHairColor();
+    this.skinColor = personInfo.getSkinColor();
+    this.eyeColor = personInfo.getEyeColor();
+    this.birthYear = personInfo.getBirthYear();
+    this.gender = personInfo.getGender();
+    this.homeworld = personInfo.getHomeWorld();
   }
 
   public UUID getId() {
