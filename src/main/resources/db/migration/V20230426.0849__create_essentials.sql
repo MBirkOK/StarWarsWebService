@@ -1,8 +1,6 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE tab_starwars_planet
 (
-    id               uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    id               int PRIMARY KEY,
     planet_name      varchar,
     diameter         numeric,
     rotationDuration numeric,
@@ -38,6 +36,6 @@ CREATE TABLE tab_starwars_characters
     eyeColor   varchar,
     birthday   varchar,
     gender     varchar,
-    homeworld  uuid,
+    homeworld  int,
     FOREIGN KEY (homeworld) REFERENCES tab_starwars_planet (id)
 );

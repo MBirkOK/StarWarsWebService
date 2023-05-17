@@ -1,5 +1,7 @@
 package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,13 +14,18 @@ import org.springframework.stereotype.Service;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PeopleNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PlanetNotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.infrastructure.PeopleRepository;
 
 @Service
 public class PeopleService {
 
   private Logger Log = LoggerFactory.getLogger(PeopleService.class);
+
+  @Inject
+  private PlanetService planetService;
 
   @Inject
   private PeopleRepository peopleRepository;
@@ -28,11 +35,19 @@ public class PeopleService {
     if (peopleOptional.isEmpty()) {
       throw new PeopleNotFoundException("Character not found");
     }
-    return People.of(peopleOptional.get());
+    return PeopleValue.of(peopleOptional.get());
   }
 
-  public UUID createCharacter(PeopleValue peopleValue) {
-    People people = PeopleValue.of(peopleValue);
+  public List<PeopleValue> findAllPeople(){
+    List<PeopleValue> peoples = new ArrayList<>();
+    this.peopleRepository.findAll().forEach(people -> peoples.add(PeopleValue.of(people)));
+    return peoples;
+  }
+
+  public UUID createCharacter(PeopleValue peopleValue) throws PlanetNotFoundException {
+    Planet planet = this.planetService.findPlanetById(Integer.parseInt(peopleValue.getHomeworld()));
+    People people = new People(peopleValue, planet);
+
     try {
       this.peopleRepository.save(people);
     } catch (Exception e) {

@@ -2,11 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.util.UUID;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
 
@@ -14,8 +10,7 @@ import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
 public class Planet {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID id;
+  private int id;
 
   @Column(name = "planet_name")
   private String name;
@@ -48,7 +43,7 @@ public class Planet {
     //for JPA
   }
 
-  public Planet(UUID id, String name, Double diameter, Double rotationPeriod, String gravity, String climate,
+  public Planet(int id, String name, Double diameter, Double rotationPeriod, String gravity, String climate,
                 String terrain, Double surfaceWater, String orbital, String population) {
     this.id = id;
     this.name = name;
@@ -62,8 +57,8 @@ public class Planet {
     this.population = population;
   }
 
-  public Planet(String name, Double diameter, Double rotationPeriod, String gravity, String climate, String terrain,
-                Double surfaceWater, String orbital, String population) {
+  public Planet(String name, Double diameter, Double rotationPeriod, String gravity, String climate,
+                String terrain, Double surfaceWater, String orbital, String population) {
     this.name = name;
     this.diameter = diameter;
     this.rotationPeriod = rotationPeriod;
@@ -75,7 +70,7 @@ public class Planet {
     this.population = population;
   }
 
-  public UUID getId() {
+  public int getId() {
     return id;
   }
 
@@ -105,6 +100,14 @@ public class Planet {
 
   public Double getSurfaceWater() {
     return surfaceWater;
+  }
+
+  public String getOrbital() {
+    return orbital;
+  }
+
+  public String getPopulation() {
+    return population;
   }
 
   public static Planet of(PlanetValue planetValue) {

@@ -1,5 +1,6 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -21,21 +22,48 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.PlanetService;
 @RequestMapping(path = "/planet")
 public class PlanetController {
 
+  static class PlanetHolder{
+   private PlanetValue fields;
+   private String model;
+   private int pk;
+
+    public PlanetHolder(PlanetValue fields, String model, int pk) {
+      this.fields = fields;
+      this.model = model;
+      this.pk = pk;
+    }
+
+    public PlanetValue getFields() {
+      return fields;
+    }
+
+    public int getPk() {
+      return pk;
+    }
+  }
+
   @Inject
   private PlanetService planetService;
 
   @GetMapping(path = "/{id}")
   public PlanetValue findPlanetById(@PathVariable String id) throws PlanetNotFoundException {
-    return this.planetService.findPlanetById(UUID.fromString(id));
+    return PlanetValue.of(this.planetService.findPlanetById(Integer.parseInt(id)));
+  }
+
+  @GetMapping()
+  public List<PlanetValue> findAllPlanets(){
+    return this.planetService.findAllPlanets();
   }
 
   @PostMapping(path = "/create")
-  public UUID createPlanet(@RequestBody PlanetValue planetValue) {
-    return this.planetService.createPlanet(Planet.of(planetValue));
+  public int createPlanet(@RequestBody PlanetHolder planetHolder) {
+    return this.planetService.createPlanet(new Planet(planetHolder.getPk(), planetHolder.getFields().getName(), planetHolder.getFields().getDiameter(),
+      planetHolder.getFields().getRotationPeriod(), planetHolder.getFields().getGravity(), planetHolder.getFields().getClimate(), planetHolder.getFields().getTerrain(),
+      Double.valueOf(planetHolder.getFields().getSurfaceWater()), planetHolder.getFields().getOrbitalPeriod(), planetHolder.getFields().getPopulation()));
   }
 
   @DeleteMapping(path = "/delete/{id}")
-  public void deletePlanet(@PathVariable UUID id) {
+  public void deletePlanet(@PathVariable int id) {
     this.planetService.deletePlanet(id);
   }
 }

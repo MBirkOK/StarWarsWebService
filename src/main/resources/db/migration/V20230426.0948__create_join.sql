@@ -1,12 +1,3 @@
-CREATE TABLE tab_starwars_people_planet_join
-(
-    planet_id uuid,
-    people_id uuid,
-    FOREIGN KEY (planet_id) REFERENCES tab_starwars_planet (id),
-    FOREIGN KEY (people_id) REFERENCES tab_starwars_characters (id),
-    PRIMARY KEY (planet_id, people_id)
-);
-
 CREATE TABLE tab_starwars_film_people_join
 (
     film_id   int,
@@ -18,7 +9,7 @@ CREATE TABLE tab_starwars_film_people_join
 
 CREATE TABLE tab_starwars_film_planet_join
 (
-    planet_id uuid,
+    planet_id int,
     film_id   int,
     FOREIGN KEY (film_id) REFERENCES tab_starwars_film (episodeId),
     FOREIGN KEY (planet_id) REFERENCES tab_starwars_planet (id),

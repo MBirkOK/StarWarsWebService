@@ -19,25 +19,33 @@ public class PlanetService {
   @Inject
   private PlanetRepository planetRepository;
 
-  public PlanetValue findPlanetById(UUID uuid) throws PlanetNotFoundException {
-    Optional<Planet> planetOptional = this.planetRepository.findById(uuid);
+  public Planet findPlanetById(int id) throws PlanetNotFoundException {
+    Optional<Planet> planetOptional = this.planetRepository.findById(id);
     if (!planetOptional.isPresent()) {
       throw new PlanetNotFoundException("Planet not found");
     }
-    return PlanetValue.of(planetOptional.get());
+    return planetOptional.get();
   }
 
-  public List<PlanetValue> findAllPlanets(){
+  public List<PlanetValue> findAllPlanets() {
     List<PlanetValue> planets = new ArrayList<>();
     this.planetRepository.findAll().forEach(planet -> planets.add(PlanetValue.of(planet)));
     return planets;
   }
 
-  public UUID createPlanet(Planet planet) {
+  public Planet findPlanetByName(String planetName) throws PlanetNotFoundException {
+    Optional<Planet> planet = this.planetRepository.findByName(planetName);
+    if(planet.isPresent()){
+      return planet.get();
+    }
+    throw new PlanetNotFoundException("Planet not in Database");
+  }
+
+  public int createPlanet(Planet planet) {
     return this.planetRepository.save(planet).getId();
   }
 
-  public void deletePlanet(UUID uuid) {
-    this.planetRepository.deleteById(uuid);
+  public void deletePlanet(int id) {
+    this.planetRepository.deleteById(id);
   }
 }

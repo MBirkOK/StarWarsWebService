@@ -1,5 +1,6 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PeopleNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PlanetNotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.PeopleService;
 
 @RestController
@@ -29,8 +31,13 @@ public class PeopleController {
     return this.peopleService.findCharacterById(id);
   }
 
+  @GetMapping()
+  public List<PeopleValue> findAllPeople(){
+    return this.peopleService.findAllPeople();
+  }
+
   @PostMapping(path = "/create")
-  public UUID createCharacter(@RequestBody PeopleValue peopleValue) {
+  public UUID createCharacter(@RequestBody PeopleValue peopleValue) throws PlanetNotFoundException {
     return this.peopleService.createCharacter(peopleValue);
   }
 

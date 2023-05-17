@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
-import de.openknowledge.ausbildung.mbi.starwars.domain.entities.value_obj.PersonInfo;
 
 
 /**
@@ -169,17 +168,18 @@ public class PeopleValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PeopleValue(UUID id, PersonInfo personInfo) {
+  public PeopleValue(UUID id, String name, String height, String mass, String hairColor, String skinColor, String eyeColor,
+                     String birthYear, String gender, int homeworld) {
     this.id = id;
-    this.name = personInfo.getName();
-    this.height = personInfo.getHeight();
-    this.mass = personInfo.getMass();
-    this.hairColor = personInfo.getHairColor();
-    this.skinColor = personInfo.getSkinColor();
-    this.eyeColor = personInfo.getEyeColor();
-    this.birthYear = personInfo.getBirthYear();
-    this.gender = personInfo.getGender();
-    this.homeworld = personInfo.getHomeWorld();
+    this.name = name;
+    this.height = height;
+    this.mass = mass;
+    this.hairColor = hairColor;
+    this.skinColor = skinColor;
+    this.eyeColor = eyeColor;
+    this.birthYear = birthYear;
+    this.gender = gender;
+    this.homeworld = String.valueOf(homeworld);
   }
 
   public UUID getId() {
@@ -488,9 +488,9 @@ public class PeopleValue {
     this.additionalProperties.put(name, value);
   }
 
-  public static People of(PeopleValue people) {
-    return new People(people.getId(), people.getName(), Double.valueOf(people.getHeight()), Float.parseFloat(people.getMass()),
-      people.getHairColor(), people.getSkinColor(), people.getEyeColor(), people.getBirthYear(), people.getGender(),
-      people.getHomeworld());
+  public static PeopleValue of(People people) {
+    return new PeopleValue(people.getId(), people.getName(), people.getHeight().toString(), Float.toString(people.getMass()), people.getHaircolor(),
+      people.getSkincolor(), people.getEyeColor(), people.getBirthday(), people.getGender(), people.getHomeWorld().getId());
   }
+
 }

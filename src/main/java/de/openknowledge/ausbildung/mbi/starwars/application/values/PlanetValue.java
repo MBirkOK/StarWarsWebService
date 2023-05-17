@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.processing.Generated;
 
@@ -44,8 +43,6 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
 })
 @Generated("jsonschema2pojo")
 public class PlanetValue {
-
-  private UUID id;
 
   /**
    * The name of this planet.
@@ -148,9 +145,8 @@ public class PlanetValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PlanetValue(UUID id, String name, Double diameter, Double rotationPeriod, String orbitalPeriod,
-                     String gravity, String climate, String terrain, String surfaceWater) {
-    this.id = id;
+  public PlanetValue(String name, Double diameter, Double rotationPeriod, String orbitalPeriod,
+                     String gravity, String climate, String terrain, String surfaceWater, String population) {
     this.name = name;
     this.diameter = diameter;
     this.rotationPeriod = rotationPeriod;
@@ -159,6 +155,7 @@ public class PlanetValue {
     this.climate = climate;
     this.terrain = terrain;
     this.surfaceWater = surfaceWater;
+    this.population = population;
   }
 
   /**
@@ -424,8 +421,8 @@ public class PlanetValue {
   }
 
   public static PlanetValue of(Planet planet) {
-    return new PlanetValue(planet.getId(), planet.getName(), planet.getDiameter(), planet.getRotationPeriod(),
-      "", planet.getGravity(), planet.getClimate(), planet.getTerrain().toString(),
-      planet.getSurfaceWater().toString());
+    return new PlanetValue(planet.getName(), planet.getDiameter(), planet.getRotationPeriod(),
+      planet.getOrbital(), planet.getGravity(), planet.getClimate(), planet.getTerrain().toString(),
+      planet.getSurfaceWater().toString(), planet.getPopulation());
   }
 }
