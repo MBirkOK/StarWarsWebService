@@ -1,6 +1,7 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.values;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Starship;
 
 
 /**
@@ -181,6 +184,31 @@ public class StarshipValue {
   private Date edited;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+
+  public StarshipValue(String starshipClass, String hyperdriveRating, String mglt, List<Object> pilots) {
+    this.starshipClass = starshipClass;
+    this.hyperdriveRating = hyperdriveRating;
+    this.mglt = mglt;
+    this.pilots = pilots;
+  }
+
+  public StarshipValue(Starship starship) {
+    this.name = starship.getStarshipName();
+    this.model = starship.getModel();
+    this.starshipClass = starship.getStarshipClass();
+    this.manufacturer = starship.getManufacturer();
+    this.costInCredits = String.valueOf(starship.getCostInCredits());
+    this.length = String.valueOf(starship.getLength());
+    this.crew = String.valueOf(starship.getCrew());
+    this.passengers = passengers;
+    this.maxAtmospheringSpeed = maxAtmospheringSpeed;
+    this.hyperdriveRating = hyperdriveRating;
+    this.mglt = mglt;
+    this.cargoCapacity = cargoCapacity;
+    this.consumables = consumables;
+    this.films = films;
+    this.pilots = pilots;
+  }
 
   /**
    * The name of this starship. The common name, such as Death Star.
@@ -439,8 +467,12 @@ public class StarshipValue {
    * (Required)
    */
   @JsonProperty("pilots")
-  public List<Object> getPilots() {
-    return pilots;
+  public List<Integer> getPilots() {
+    ArrayList<Integer> integerArrayList = new ArrayList<>();
+    for(Object pilot: this.pilots){
+      integerArrayList.add((Integer) pilot);
+    }
+    return integerArrayList;
   }
 
   /**

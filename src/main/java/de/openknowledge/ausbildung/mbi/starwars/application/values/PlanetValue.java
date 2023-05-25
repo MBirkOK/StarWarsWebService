@@ -57,14 +57,14 @@ public class PlanetValue {
    */
   @JsonProperty("diameter")
   @JsonPropertyDescription("The diameter of this planet in kilometers.")
-  private Double diameter;
+  private String diameter;
   /**
    * The number of standard hours it takes for this planet to complete a single rotation on its axis.
    * (Required)
    */
   @JsonProperty("rotation_period")
   @JsonPropertyDescription("The number of standard hours it takes for this planet to complete a single rotation on its axis.")
-  private Double rotationPeriod;
+  private String rotationPeriod;
   /**
    * The number of standard days it takes for this planet to complete a single orbit of its local star.
    * (Required)
@@ -145,7 +145,7 @@ public class PlanetValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PlanetValue(String name, Double diameter, Double rotationPeriod, String orbitalPeriod,
+  public PlanetValue(String name, String diameter, String rotationPeriod, String orbitalPeriod,
                      String gravity, String climate, String terrain, String surfaceWater, String population) {
     this.name = name;
     this.diameter = diameter;
@@ -181,7 +181,7 @@ public class PlanetValue {
    * (Required)
    */
   @JsonProperty("diameter")
-  public Double getDiameter() {
+  public String getDiameter() {
     return diameter;
   }
 
@@ -190,7 +190,7 @@ public class PlanetValue {
    * (Required)
    */
   @JsonProperty("diameter")
-  public void setDiameter(Double diameter) {
+  public void setDiameter(String diameter) {
     this.diameter = diameter;
   }
 
@@ -199,7 +199,7 @@ public class PlanetValue {
    * (Required)
    */
   @JsonProperty("rotation_period")
-  public Double getRotationPeriod() {
+  public String getRotationPeriod() {
     return rotationPeriod;
   }
 
@@ -208,7 +208,7 @@ public class PlanetValue {
    * (Required)
    */
   @JsonProperty("rotation_period")
-  public void setRotationPeriod(Double rotationPeriod) {
+  public void setRotationPeriod(String rotationPeriod) {
     this.rotationPeriod = rotationPeriod;
   }
 
@@ -421,7 +421,7 @@ public class PlanetValue {
   }
 
   public static PlanetValue of(Planet planet) {
-    return new PlanetValue(planet.getName(), planet.getDiameter(), planet.getRotationPeriod(),
+    return new PlanetValue(planet.getName(), planet.getDiameter().toString(), planet.getRotationPeriod().toString(),
       planet.getOrbital(), planet.getGravity(), planet.getClimate(), planet.getTerrain().toString(),
       planet.getSurfaceWater().toString(), planet.getPopulation());
   }

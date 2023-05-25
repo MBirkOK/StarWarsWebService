@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Service;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PeopleNotFoundException;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PlanetNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.infrastructure.PeopleRepository;
 
 @Service
@@ -30,12 +30,12 @@ public class PeopleService {
   @Inject
   private PeopleRepository peopleRepository;
 
-  public PeopleValue findCharacterById(String id) throws PeopleNotFoundException {
-    Optional<People> peopleOptional = this.peopleRepository.findById(UUID.fromString(id));
+  public People findCharacterById(int id) throws NotFoundException {
+    Optional<People> peopleOptional = this.peopleRepository.findById(id);
     if (peopleOptional.isEmpty()) {
-      throw new PeopleNotFoundException("Character not found");
+      throw new NotFoundException("Character not found");
     }
-    return PeopleValue.of(peopleOptional.get());
+    return peopleOptional.get();
   }
 
   public List<PeopleValue> findAllPeople(){
@@ -44,7 +44,14 @@ public class PeopleService {
     return peoples;
   }
 
-  public UUID createCharacter(PeopleValue peopleValue) throws PlanetNotFoundException {
+  public List<People> findAllForIds(List<Integer> pilotIds){
+    if (pilotIds.isEmpty()){
+      return new ArrayList<>();
+    }
+    return this.peopleRepository.findAllByIdIn(pilotIds);
+  }
+
+  public int createCharacter(PeopleValue peopleValue) throws NotFoundException {
     Planet planet = this.planetService.findPlanetById(Integer.parseInt(peopleValue.getHomeworld()));
     People people = new People(peopleValue, planet);
 
@@ -57,7 +64,7 @@ public class PeopleService {
     return people.getId();
   }
 
-  public void deleteCharacter(UUID uuid) {
-    this.peopleRepository.deleteById(uuid);
+  public void deleteCharacter(int id) {
+    this.peopleRepository.deleteById(id);
   }
 }

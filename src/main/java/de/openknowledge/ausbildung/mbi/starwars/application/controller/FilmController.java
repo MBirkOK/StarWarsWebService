@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.FilmValue;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.FilmNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.FilmService;
 
 @RestController
@@ -22,7 +22,7 @@ public class FilmController {
   private FilmService filmService;
 
   @GetMapping(path = "/get/{id}")
-  public FilmValue getFilmById(@PathVariable String id) throws FilmNotFoundException {
+  public FilmValue getFilmById(@PathVariable String id) throws NotFoundException {
     return this.filmService.findFilmById(id);
   }
 

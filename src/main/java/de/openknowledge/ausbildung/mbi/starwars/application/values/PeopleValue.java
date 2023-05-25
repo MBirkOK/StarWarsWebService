@@ -51,7 +51,7 @@ public class PeopleValue {
    */
   @JsonProperty("id")
   @JsonPropertyDescription("The name of this person.")
-  private UUID id;
+  private int id;
 
   /**
    * The name of this person.
@@ -168,7 +168,7 @@ public class PeopleValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PeopleValue(UUID id, String name, String height, String mass, String hairColor, String skinColor, String eyeColor,
+  public PeopleValue(int id, String name, String height, String mass, String hairColor, String skinColor, String eyeColor,
                      String birthYear, String gender, int homeworld) {
     this.id = id;
     this.name = name;
@@ -182,11 +182,11 @@ public class PeopleValue {
     this.homeworld = String.valueOf(homeworld);
   }
 
-  public UUID getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(int id) {
     this.id = id;
   }
 

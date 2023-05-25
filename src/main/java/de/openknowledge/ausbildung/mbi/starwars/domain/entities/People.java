@@ -2,23 +2,17 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
-import java.util.UUID;
-
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
-import de.openknowledge.ausbildung.mbi.starwars.domain.entities.value_obj.PersonInfo;
 
 @Entity(name = "tab_starwars_characters")
 public class People {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID id;
+  private int id;
 
   @Column(name = "given_name")
   private String name;
@@ -45,7 +39,7 @@ public class People {
     //for JPA
   }
 
-  public People(UUID id, String name, Double height, float mass, String haircolor, String skincolor, String eyeColor,
+  public People(int id, String name, Double height, float mass, String haircolor, String skincolor, String eyeColor,
                 String birthday, String gender, Planet homeWorld) {
     this.id = id;
     this.name = name;
@@ -60,9 +54,19 @@ public class People {
   }
 
   public People(PeopleValue peopleValue, Planet planet) {
+    String height = peopleValue.getHeight();
+    String mass = peopleValue.getMass();
+
+    if (height.equals("unknown")) {
+      height = "0";
+    }
+    if (mass.equals("unknown")) {
+      mass = "0";
+    }
+    this.id = peopleValue.getId();
     this.name = peopleValue.getName();
-    this.height = Double.parseDouble(peopleValue.getHeight());
-    this.mass = Float.parseFloat(peopleValue.getMass());
+    this.height = Double.parseDouble(height);
+    this.mass = Float.parseFloat(mass.replace(",", "."));
     this.haircolor = peopleValue.getHairColor();
     this.skincolor = peopleValue.getSkinColor();
     this.eyeColor = peopleValue.getEyeColor();
@@ -71,7 +75,7 @@ public class People {
     this.birthday = peopleValue.getBirthYear();
   }
 
-  public UUID getId() {
+  public int getId() {
     return id;
   }
 

@@ -1,6 +1,7 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.values;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Species;
 
 
 /**
@@ -42,6 +46,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 @Generated("jsonschema2pojo")
 public class SpeciesValue {
+
+  int id;
 
   /**
    * The name of this species.
@@ -153,6 +159,27 @@ public class SpeciesValue {
   private Date edited;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+
+  public SpeciesValue(int id, String name, String classification, String designation, String averageHeight,
+                      String averageLifespan, String hairColors, String skinColors, String eyeColors, String homeworld,
+                      String language, List<Object> people) {
+    this.id = id;
+    this.name = name;
+    this.classification = classification;
+    this.designation = designation;
+    this.averageHeight = averageHeight;
+    this.averageLifespan = averageLifespan;
+    this.hairColors = hairColors;
+    this.skinColors = skinColors;
+    this.eyeColors = eyeColors;
+    this.homeworld = homeworld;
+    this.language = language;
+    this.people = people;
+  }
+
+  public int getId() {
+    return id;
+  }
 
   /**
    * The name of this species.
@@ -434,4 +461,16 @@ public class SpeciesValue {
     this.additionalProperties.put(name, value);
   }
 
+
+  public static SpeciesValue of(Species species) {
+    ArrayList<Object> peopleList = new ArrayList();
+    for (People people1 : species.getPeople()) {
+      peopleList.add((Object)people1);
+    }
+
+    return new SpeciesValue(species.getId(), species.getName(), species.getClassification(), species.getDesignation(),
+      species.getAverageHeight().toString(), Integer.toString(species.getAverageLifeSpan()), species.getHairColor(),
+      species.getSkinColor(), species.getEyeColor(), species.getHomeWorld().getName(), species.getLanguage(),
+      peopleList);
+  }
 }

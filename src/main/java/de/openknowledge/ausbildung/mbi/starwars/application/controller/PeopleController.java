@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PeopleNotFoundException;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PlanetNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.PeopleService;
 
 @RestController
@@ -26,9 +26,29 @@ public class PeopleController {
   @Inject
   private PeopleService peopleService;
 
+  static class PeopleHolder{
+    private PeopleValue fields;
+    private String model;
+    private int pk;
+
+    public PeopleHolder(PeopleValue fields, String model, int pk) {
+      this.fields = fields;
+      this.model = model;
+      this.pk = pk;
+    }
+
+    public PeopleValue getFields() {
+      return fields;
+    }
+
+    public int getPk() {
+      return pk;
+    }
+  }
+
   @GetMapping(path = "/get/{id}")
-  public PeopleValue findCharacterFindById(@PathVariable String id) throws PeopleNotFoundException {
-    return this.peopleService.findCharacterById(id);
+  public PeopleValue findCharacterFindById(@PathVariable String id) throws NotFoundException {
+    return PeopleValue.of(this.peopleService.findCharacterById(Integer.parseInt(id)));
   }
 
   @GetMapping()
@@ -37,12 +57,25 @@ public class PeopleController {
   }
 
   @PostMapping(path = "/create")
-  public UUID createCharacter(@RequestBody PeopleValue peopleValue) throws PlanetNotFoundException {
+  public int createCharacter(@RequestBody PeopleHolder peopleHolder) throws NotFoundException {
+    PeopleValue peopleValue = new PeopleValue(peopleHolder.getPk(), peopleHolder.getFields().getName(),
+      peopleHolder.getFields().getHeight(), peopleHolder.getFields().getMass(), peopleHolder.getFields().getHairColor(),
+      peopleHolder.getFields().getSkinColor(), peopleHolder.getFields().getEyeColor(),
+      peopleHolder.getFields().getBirthYear(), peopleHolder.getFields().getGender(),
+      Integer.parseInt(peopleHolder.getFields().getHomeworld()));
     return this.peopleService.createCharacter(peopleValue);
   }
 
   @DeleteMapping(value = "/delete/{id}")
-  public void deleteCharacter(@RequestParam UUID id) {
+  public void deleteCharacter(@RequestParam int id) {
     this.peopleService.deleteCharacter(id);
   }
+
+  @PostMapping(path = "/masscreate")
+  public void massCreate(@RequestBody List<PeopleHolder> peopleHolders) throws NotFoundException {
+    for(PeopleHolder peopleHolder: peopleHolders){
+      this.createCharacter(peopleHolder);
+    }
+  }
+
 }

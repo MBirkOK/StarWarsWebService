@@ -111,8 +111,16 @@ public class Planet {
   }
 
   public static Planet of(PlanetValue planetValue) {
-    return new Planet(planetValue.getName(), planetValue.getDiameter(), planetValue.getRotationPeriod(),
+    String surface =planetValue.getSurfaceWater();
+    String rotationPeriod = planetValue.getRotationPeriod();
+    if(rotationPeriod.equals("unknown")){
+      rotationPeriod = "0.0";
+    }
+    if(surface.equals("unknown")){
+      surface = "0.0";
+    }
+    return new Planet(planetValue.getName(), Double.parseDouble(planetValue.getDiameter()), Double.parseDouble(rotationPeriod),
       planetValue.getGravity(), planetValue.getClimate(), planetValue.getTerrain(),
-      Double.parseDouble(planetValue.getSurfaceWater()), planetValue.getOrbitalPeriod(), planetValue.getPopulation());
+      Double.parseDouble(surface), planetValue.getOrbitalPeriod(), planetValue.getPopulation());
   }
 }

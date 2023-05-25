@@ -27,7 +27,7 @@ CREATE TABLE tab_starwars_film
 
 CREATE TABLE tab_starwars_characters
 (
-    id         uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    id         int PRIMARY KEY,
     given_name varchar,
     height     double precision,
     mass       numeric,

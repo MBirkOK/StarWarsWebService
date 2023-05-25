@@ -1,7 +1,6 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
-import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.PlanetNotFoundException;
+import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.PlanetService;
 
 @RestController
@@ -46,7 +45,7 @@ public class PlanetController {
   private PlanetService planetService;
 
   @GetMapping(path = "/{id}")
-  public PlanetValue findPlanetById(@PathVariable String id) throws PlanetNotFoundException {
+  public PlanetValue findPlanetById(@PathVariable String id) throws NotFoundException {
     return PlanetValue.of(this.planetService.findPlanetById(Integer.parseInt(id)));
   }
 
@@ -57,13 +56,35 @@ public class PlanetController {
 
   @PostMapping(path = "/create")
   public int createPlanet(@RequestBody PlanetHolder planetHolder) {
-    return this.planetService.createPlanet(new Planet(planetHolder.getPk(), planetHolder.getFields().getName(), planetHolder.getFields().getDiameter(),
-      planetHolder.getFields().getRotationPeriod(), planetHolder.getFields().getGravity(), planetHolder.getFields().getClimate(), planetHolder.getFields().getTerrain(),
-      Double.valueOf(planetHolder.getFields().getSurfaceWater()), planetHolder.getFields().getOrbitalPeriod(), planetHolder.getFields().getPopulation()));
+    PlanetValue planetValue = planetHolder.getFields();
+    String surface =planetValue.getSurfaceWater();
+    String rotationPeriod = planetValue.getRotationPeriod();
+    String diameter = planetValue.getDiameter();
+    if(diameter.equals("unknown")){
+      diameter = "0.0";
+    }
+    if(rotationPeriod.equals("unknown")){
+      rotationPeriod = "0.0";
+    }
+    if(surface.equals("unknown")){
+      surface = "0.0";
+    }
+    Planet planet = new Planet(planetHolder.getPk(), planetValue.getName(), Double.parseDouble(diameter),
+      Double.parseDouble(rotationPeriod), planetValue.getGravity(), planetValue.getClimate(),
+      planetValue.getTerrain(), Double.parseDouble(surface),
+      planetValue.getOrbitalPeriod(), planetValue.getPopulation());
+    return this.planetService.createPlanet(planet);
   }
 
   @DeleteMapping(path = "/delete/{id}")
   public void deletePlanet(@PathVariable int id) {
     this.planetService.deletePlanet(id);
+  }
+
+  @PostMapping("/masscreate")
+  public void massCreate(@RequestBody List<PlanetHolder> planetHolders){
+    for(PlanetHolder planetHolder: planetHolders){
+      this.createPlanet(planetHolder);
+    }
   }
 }

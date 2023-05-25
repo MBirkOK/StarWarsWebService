@@ -1,12 +1,16 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.values;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.processing.Generated;
+
+import org.springframework.beans.factory.annotation.Value;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -15,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Vehicle;
 
 
 /**
@@ -43,6 +49,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 @Generated("jsonschema2pojo")
 public class VehicleValue {
+
+  int id;
 
   /**
    * The name of this vehicle. The common name, such as Sand Crawler.
@@ -78,6 +86,7 @@ public class VehicleValue {
    */
   @JsonProperty("cost_in_credits")
   @JsonPropertyDescription("The cost of this vehicle new, in galactic credits.")
+  @Value("${some.key:0.0}")
   private String costInCredits;
   /**
    * The length of this vehicle in meters.
@@ -160,13 +169,31 @@ public class VehicleValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+  public VehicleValue(int id, String name, String model, String vehicleClass, String manufacturer, String costInCredits,
+                      String length, String crew, String passengers, String maxAtmospheringSpeed, String cargoCapacity,
+                      String consumables, List<Object> pilots) {
+    this.id = id;
+    this.name = name;
+    this.model = model;
+    this.vehicleClass = vehicleClass;
+    this.manufacturer = manufacturer;
+    this.costInCredits = costInCredits;
+    this.length = length;
+    this.crew = crew;
+    this.passengers = passengers;
+    this.maxAtmospheringSpeed = maxAtmospheringSpeed;
+    this.cargoCapacity = cargoCapacity;
+    this.consumables = consumables;
+    this.pilots = pilots;
+  }
+
   /**
    * The name of this vehicle. The common name, such as Sand Crawler.
    * (Required)
    */
   @JsonProperty("name")
-  public String getName() {
-    return name;
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
   }
 
   /**
@@ -183,8 +210,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("model")
-  public String getModel() {
-    return model;
+  public Optional<String> getModel() {
+    return Optional.ofNullable(model);
   }
 
   /**
@@ -201,8 +228,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("vehicle_class")
-  public String getVehicleClass() {
-    return vehicleClass;
+  public Optional<String> getVehicleClass() {
+    return Optional.ofNullable(vehicleClass);
   }
 
   /**
@@ -219,8 +246,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("manufacturer")
-  public String getManufacturer() {
-    return manufacturer;
+  public Optional<String> getManufacturer() {
+    return Optional.ofNullable(manufacturer);
   }
 
   /**
@@ -237,8 +264,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("cost_in_credits")
-  public String getCostInCredits() {
-    return costInCredits;
+  public Optional<String> getCostInCredits() {
+    return Optional.ofNullable(costInCredits);
   }
 
   /**
@@ -255,8 +282,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("length")
-  public String getLength() {
-    return length;
+  public Optional<String> getLength() {
+    return Optional.ofNullable(length);
   }
 
   /**
@@ -273,8 +300,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("crew")
-  public String getCrew() {
-    return crew;
+  public Optional<String> getCrew() {
+    return Optional.ofNullable(crew);
   }
 
   /**
@@ -291,8 +318,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("passengers")
-  public String getPassengers() {
-    return passengers;
+  public Optional<String> getPassengers() {
+    return Optional.ofNullable(passengers);
   }
 
   /**
@@ -309,8 +336,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("max_atmosphering_speed")
-  public String getMaxAtmospheringSpeed() {
-    return maxAtmospheringSpeed;
+  public Optional<String> getMaxAtmospheringSpeed() {
+    return Optional.ofNullable(maxAtmospheringSpeed);
   }
 
   /**
@@ -327,8 +354,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("cargo_capacity")
-  public String getCargoCapacity() {
-    return cargoCapacity;
+  public Optional<String> getCargoCapacity() {
+    return Optional.ofNullable(cargoCapacity);
   }
 
   /**
@@ -345,8 +372,8 @@ public class VehicleValue {
    * (Required)
    */
   @JsonProperty("consumables")
-  public String getConsumables() {
-    return consumables;
+  public Optional<String> getConsumables() {
+    return Optional.ofNullable(consumables);
   }
 
   /**
@@ -458,4 +485,11 @@ public class VehicleValue {
     this.additionalProperties.put(name, value);
   }
 
+  public static VehicleValue of(Vehicle vehicle){
+    return new VehicleValue(vehicle.getId(), vehicle.getVehicleName(), vehicle.getModel(), vehicle.getVehicleClass(),
+      vehicle.getManufacturer(), vehicle.getCostInCredits().toString(), vehicle.getLength().toString(),
+      String.valueOf(vehicle.getCrew()), String.valueOf(vehicle.getPassengers()),
+      String.valueOf(vehicle.getMaxAtmospheringSpeed()), String.valueOf(vehicle.getCargoCapacity()),
+      vehicle.getConsumables(), Collections.singletonList(vehicle.getPilots()));
+  }
 }
