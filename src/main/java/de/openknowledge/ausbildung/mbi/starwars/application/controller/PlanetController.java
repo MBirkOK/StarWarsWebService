@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.PlanetService;
 
 @RestController
 @RequestMapping(path = "/planet")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PlanetController {
 
   static class PlanetHolder{
