@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Species;
 
 
@@ -467,10 +468,16 @@ public class SpeciesValue {
     for (People people1 : species.getPeople()) {
       peopleList.add((Object)people1);
     }
+    Planet planet;
+    if (species.getHomeWorld() == null) {
+      planet = new Planet(0, "", 0.0, 0.0, "", "", "", 0.0, "", "");
+    } else {
+      planet = species.getHomeWorld();
+    }
 
     return new SpeciesValue(species.getId(), species.getName(), species.getClassification(), species.getDesignation(),
       species.getAverageHeight().toString(), Integer.toString(species.getAverageLifeSpan()), species.getHairColor(),
-      species.getSkinColor(), species.getEyeColor(), species.getHomeWorld().getName(), species.getLanguage(),
+      species.getSkinColor(), species.getEyeColor(), planet.getName(), species.getLanguage(),
       peopleList);
   }
 }

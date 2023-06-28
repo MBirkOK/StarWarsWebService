@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
 
 
 /**
@@ -115,7 +116,7 @@ public class PeopleValue {
    */
   @JsonProperty("homeworld")
   @JsonPropertyDescription("The url of the planet resource that this person was born on.")
-  private String homeworld;
+  private PlanetValue homeworld;
   /**
    * An array of urls of film resources that this person has been in.
    * (Required)
@@ -168,6 +169,10 @@ public class PeopleValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+  public PeopleValue(){
+
+  }
+
   public PeopleValue(int id, String name, String height, String mass, String hairColor, String skinColor, String eyeColor,
                      String birthYear, String gender, int homeworld) {
     this.id = id;
@@ -179,7 +184,20 @@ public class PeopleValue {
     this.eyeColor = eyeColor;
     this.birthYear = birthYear;
     this.gender = gender;
-    this.homeworld = String.valueOf(homeworld);
+    this.homeworld = new PlanetValue(homeworld);
+  }
+
+  public PeopleValue(int id, String name, String height, String mass, String hairColor, String skinColor, String eyeColor, String birthYear, String gender, PlanetValue homeworld) {
+    this.id = id;
+    this.name = name;
+    this.height = height;
+    this.mass = mass;
+    this.hairColor = hairColor;
+    this.skinColor = skinColor;
+    this.eyeColor = eyeColor;
+    this.birthYear = birthYear;
+    this.gender = gender;
+    this.homeworld = homeworld;
   }
 
   public int getId() {
@@ -339,7 +357,7 @@ public class PeopleValue {
    * (Required)
    */
   @JsonProperty("homeworld")
-  public String getHomeworld() {
+  public PlanetValue getHomeworld() {
     return homeworld;
   }
 
@@ -348,7 +366,7 @@ public class PeopleValue {
    * (Required)
    */
   @JsonProperty("homeworld")
-  public void setHomeworld(String homeworld) {
+  public void setHomeworld(PlanetValue homeworld) {
     this.homeworld = homeworld;
   }
 
@@ -490,7 +508,7 @@ public class PeopleValue {
 
   public static PeopleValue of(People people) {
     return new PeopleValue(people.getId(), people.getName(), people.getHeight().toString(), Float.toString(people.getMass()), people.getHaircolor(),
-      people.getSkincolor(), people.getEyeColor(), people.getBirthday(), people.getGender(), people.getHomeWorld().getId());
+      people.getSkincolor(), people.getEyeColor(), people.getBirthday(), people.getGender(), PlanetValue.of(people.getHomeWorld()));
   }
 
 }

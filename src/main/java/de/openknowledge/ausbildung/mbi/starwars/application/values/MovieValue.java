@@ -16,7 +16,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Film;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Movie;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Species;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Starship;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Vehicle;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -36,7 +41,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Film;
   "created",
   "edited"
 })
-public class FilmValue {
+public class MovieValue {
 
   /**
    * The title of this film.
@@ -139,13 +144,20 @@ public class FilmValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-
-  public FilmValue(String title, Integer episodeId, String openingCrawl, String director, String releaseDate, Date created, Date edited) {
+  public MovieValue(String title, Integer episodeId, String openingCrawl, String director, String producer,
+                    String releaseDate, Date created, Date edited, List<Object> characters, List<Object> planets, List<Object> starships,
+                    List<Object> vehicles, List<Object> species) {
     this.title = title;
     this.episodeId = episodeId;
     this.openingCrawl = openingCrawl;
     this.director = director;
+    this.producer = producer;
     this.releaseDate = releaseDate;
+    this.characters = characters;
+    this.planets = planets;
+    this.starships = starships;
+    this.vehicles = vehicles;
+    this.species = species;
     this.created = created;
     this.edited = edited;
   }
@@ -412,11 +424,13 @@ public class FilmValue {
     this.additionalProperties.put(name, value);
   }
 
-  public static Film of(FilmValue filmValue) {
-    return new Film(filmValue.getEpisodeId(), filmValue.getTitle(), filmValue.getOpeningCrawl(),
-      filmValue.getDirector(), LocalDate.parse(filmValue.getReleaseDate()), convertToLocalDateViaInstant(filmValue.getCreated()),
-      convertToLocalDateViaInstant(filmValue.getEdited()));
+  public static Movie of(MovieValue movieValue, List<People> people, List<Planet> planets, List<Species> species, List<Starship> starships,
+                         List<Vehicle> vehicles) {
+    return new Movie(movieValue.getEpisodeId(), movieValue.getTitle(), movieValue.getOpeningCrawl(),
+      movieValue.getDirector(), LocalDate.parse(movieValue.getReleaseDate()), convertToLocalDateViaInstant(movieValue.getCreated()),
+      convertToLocalDateViaInstant(movieValue.getEdited()), people, planets, species, starships, vehicles, movieValue.getProducer());
   }
+
 
   private static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
     return dateToConvert.toInstant()

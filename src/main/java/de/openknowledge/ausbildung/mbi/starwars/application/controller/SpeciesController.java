@@ -1,11 +1,10 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.controller;
 
-import picocli.CommandLine;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +18,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.SpeciesService;
 
 @RestController
 @RequestMapping("/species")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SpeciesController {
 
   @Inject
@@ -51,7 +51,7 @@ public class SpeciesController {
 
   @GetMapping("/{id}")
   public SpeciesValue findSpecies(@PathVariable String id) {
-    return this.speciesService.findSpecies(id);
+    return SpeciesValue.of(this.speciesService.findSpecies(id));
   }
 
   @PostMapping("/create")
@@ -61,7 +61,7 @@ public class SpeciesController {
 
   @PostMapping("/masscreate")
   public void massCreate(@RequestBody List<SpeciesHolder> speciesHolders) throws NotFoundException {
-    for(SpeciesHolder speciesHolder: speciesHolders){
+    for (SpeciesHolder speciesHolder : speciesHolders) {
       this.createSpecies(speciesHolder);
     }
   }

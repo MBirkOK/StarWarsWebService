@@ -3,9 +3,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -38,21 +36,21 @@ public class PeopleService {
     return peopleOptional.get();
   }
 
-  public List<PeopleValue> findAllPeople(){
+  public List<PeopleValue> findAllPeople() {
     List<PeopleValue> peoples = new ArrayList<>();
     this.peopleRepository.findAll().forEach(people -> peoples.add(PeopleValue.of(people)));
     return peoples;
   }
 
-  public List<People> findAllForIds(List<Integer> pilotIds){
-    if (pilotIds.isEmpty()){
+  public List<People> findAllForIds(List<Integer> pilotIds) {
+    if (pilotIds.isEmpty()) {
       return new ArrayList<>();
     }
     return this.peopleRepository.findAllByIdIn(pilotIds);
   }
 
   public int createCharacter(PeopleValue peopleValue) throws NotFoundException {
-    Planet planet = this.planetService.findPlanetById(Integer.parseInt(peopleValue.getHomeworld()));
+    Planet planet = this.planetService.findPlanetById(peopleValue.getHomeworld().getId());
     People people = new People(peopleValue, planet);
 
     try {

@@ -34,8 +34,8 @@ public class SpeciesService {
     return speciesList;
   }
 
-  public SpeciesValue findSpecies(String id) {
-    return SpeciesValue.of(this.speciesRepository.findById(Integer.parseInt(id)).get());
+  public Species findSpecies(String id) {
+    return this.speciesRepository.findById(Integer.parseInt(id)).get();
   }
 
   public int createSpecies(SpeciesValue speciesValue, int id) throws NotFoundException {

@@ -48,6 +48,11 @@ public class PlanetValue {
    * The name of this planet.
    * (Required)
    */
+
+  @JsonProperty("id")
+  @JsonPropertyDescription("The id of this planet.")
+  private int id;
+
   @JsonProperty("name")
   @JsonPropertyDescription("The name of this planet.")
   private String name;
@@ -156,6 +161,32 @@ public class PlanetValue {
     this.terrain = terrain;
     this.surfaceWater = surfaceWater;
     this.population = population;
+  }
+
+  public PlanetValue(int id, String name, String diameter, String rotationPeriod, String orbitalPeriod,
+                     String gravity, String population, String climate, String terrain, String surfaceWater) {
+    this.id = id;
+    this.name = name;
+    this.diameter = diameter;
+    this.rotationPeriod = rotationPeriod;
+    this.orbitalPeriod = orbitalPeriod;
+    this.gravity = gravity;
+    this.population = population;
+    this.climate = climate;
+    this.terrain = terrain;
+    this.surfaceWater = surfaceWater;
+  }
+
+  public PlanetValue(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   /**
@@ -421,7 +452,7 @@ public class PlanetValue {
   }
 
   public static PlanetValue of(Planet planet) {
-    return new PlanetValue(planet.getName(), planet.getDiameter().toString(), planet.getRotationPeriod().toString(),
+    return new PlanetValue(planet.getId(), planet.getName(), planet.getDiameter().toString(), planet.getRotationPeriod().toString(),
       planet.getOrbital(), planet.getGravity(), planet.getClimate(), planet.getTerrain().toString(),
       planet.getSurfaceWater().toString(), planet.getPopulation());
   }

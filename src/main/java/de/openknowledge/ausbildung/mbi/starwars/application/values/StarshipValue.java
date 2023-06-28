@@ -1,11 +1,14 @@
 package de.openknowledge.ausbildung.mbi.starwars.application.values;
 
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.processing.Generated;
 
@@ -17,13 +20,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Starship;
 
 
 /**
- * Starship
+ * Starships
  * <p>
- * A Starship
+ * A Starships
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -48,6 +52,14 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Starship;
 })
 @Generated("jsonschema2pojo")
 public class StarshipValue {
+
+  /**
+   * The id of this person.
+   * (Required)
+   */
+  @JsonProperty("id")
+  @JsonPropertyDescription("The name of this person.")
+  private int id;
 
   /**
    * The name of this starship. The common name, such as Death Star.
@@ -193,6 +205,7 @@ public class StarshipValue {
   }
 
   public StarshipValue(Starship starship) {
+    this.id= starship.getId();
     this.name = starship.getStarshipName();
     this.model = starship.getModel();
     this.starshipClass = starship.getStarshipClass();
@@ -200,14 +213,35 @@ public class StarshipValue {
     this.costInCredits = String.valueOf(starship.getCostInCredits());
     this.length = String.valueOf(starship.getLength());
     this.crew = String.valueOf(starship.getCrew());
-    this.passengers = passengers;
-    this.maxAtmospheringSpeed = maxAtmospheringSpeed;
-    this.hyperdriveRating = hyperdriveRating;
-    this.mglt = mglt;
-    this.cargoCapacity = cargoCapacity;
-    this.consumables = consumables;
-    this.films = films;
-    this.pilots = pilots;
+
+    ArrayList<PeopleValue> peopleValues = new ArrayList<>();
+    for(People people: starship.getPassenger()){
+      peopleValues.add(PeopleValue.of(people));
+    }
+
+    this.passengers = String.valueOf(peopleValues.size());
+    this.maxAtmospheringSpeed = String.valueOf(starship.getMaxAtmospheringSpeed());
+    this.hyperdriveRating = String.valueOf(starship.getHyperdriveRating());
+    this.mglt = starship.getMglt();
+    this.cargoCapacity = String.valueOf(starship.getCargoCapacity());
+    this.consumables = starship.getConsumables();
+    this.films = new ArrayList<Object>();
+
+    ArrayList<PeopleValue> pilotValues = new ArrayList<>();
+    for(People people: starship.getPilots()){
+      peopleValues.add(PeopleValue.of(people));
+    }
+
+    this.pilots = new ArrayList<>();
+    //this.pilots = Collections.singletonList(pilotValues);
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   /**

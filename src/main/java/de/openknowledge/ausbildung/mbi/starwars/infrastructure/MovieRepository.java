@@ -3,8 +3,8 @@ package de.openknowledge.ausbildung.mbi.starwars.infrastructure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Film;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Movie;
 
 @Repository
-public interface FilmRepository extends CrudRepository<Film, Integer> {
+public interface MovieRepository extends CrudRepository<Movie, Integer> {
 }

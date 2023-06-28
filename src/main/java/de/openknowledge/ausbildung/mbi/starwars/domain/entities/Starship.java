@@ -64,8 +64,14 @@ public class Starship {
   @Column
   private int crew;
 
-  @Column
-  @OneToMany
+  @ManyToMany
+  @JoinTable(name = "tab_starwars_starship_passenger",
+    joinColumns = {
+      @JoinColumn(name = "starship_id")
+    },
+    inverseJoinColumns = {
+      @JoinColumn(name = "people_id")
+    })
   private List<People> passenger;
 
 

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +22,13 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.PeopleService;
 
 @RestController
 @RequestMapping(path = "/character")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PeopleController {
 
   @Inject
   private PeopleService peopleService;
 
-  static class PeopleHolder{
+  static class PeopleHolder {
     private PeopleValue fields;
     private String model;
     private int pk;
@@ -52,7 +54,7 @@ public class PeopleController {
   }
 
   @GetMapping()
-  public List<PeopleValue> findAllPeople(){
+  public List<PeopleValue> findAllPeople() {
     return this.peopleService.findAllPeople();
   }
 
@@ -62,7 +64,7 @@ public class PeopleController {
       peopleHolder.getFields().getHeight(), peopleHolder.getFields().getMass(), peopleHolder.getFields().getHairColor(),
       peopleHolder.getFields().getSkinColor(), peopleHolder.getFields().getEyeColor(),
       peopleHolder.getFields().getBirthYear(), peopleHolder.getFields().getGender(),
-      Integer.parseInt(peopleHolder.getFields().getHomeworld()));
+      peopleHolder.getFields().getHomeworld().getId());
     return this.peopleService.createCharacter(peopleValue);
   }
 
@@ -73,7 +75,7 @@ public class PeopleController {
 
   @PostMapping(path = "/masscreate")
   public void massCreate(@RequestBody List<PeopleHolder> peopleHolders) throws NotFoundException {
-    for(PeopleHolder peopleHolder: peopleHolders){
+    for (PeopleHolder peopleHolder : peopleHolders) {
       this.createCharacter(peopleHolder);
     }
   }

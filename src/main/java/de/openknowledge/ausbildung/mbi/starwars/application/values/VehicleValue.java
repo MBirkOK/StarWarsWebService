@@ -24,7 +24,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Vehicle;
 
 
 /**
- * Starship
+ * Starships
  * <p>
  * A vehicle.
  */

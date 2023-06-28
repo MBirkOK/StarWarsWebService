@@ -23,7 +23,7 @@ h2 {
     color: #165a72;
 }
 
-.hallo {
-    vw: 100;
-    vh: 100;
+.actionColumn {
+    display: flex;
+    justify-content: space-evenly;
 }

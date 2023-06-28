@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.VehicleValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Vehicle;
@@ -30,6 +31,12 @@ public class VehicleService {
       return vehicleOptional.get();
     }
     throw new NotFoundException("Vehicle not found");
+  }
+
+  public List<VehicleValue> findAllVehicle() {
+    List<VehicleValue> values = new ArrayList<>();
+    this.vehicleRepository.findAll().forEach(vehicle -> values.add(VehicleValue.of(vehicle)));
+    return values;
   }
 
   public int createVehicle(VehicleValue vehicleValue, int id) throws NotFoundException {

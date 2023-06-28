@@ -33,7 +33,7 @@ public class StarshipService {
     if(starshipOptional.isPresent()){
       return starshipOptional.get();
     }
-    throw new NotFoundException("Starship not found in database");
+    throw new NotFoundException("Starships not found in database");
   }
 
   public List<Starship> findAllStarships(){

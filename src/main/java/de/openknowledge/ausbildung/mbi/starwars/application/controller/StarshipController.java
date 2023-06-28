@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.StarshipService;
 
 @RestController
 @RequestMapping(path = "/starship")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StarshipController {
 
   @Inject
