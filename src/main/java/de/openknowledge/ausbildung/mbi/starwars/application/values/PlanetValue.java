@@ -48,7 +48,6 @@ public class PlanetValue {
    * The name of this planet.
    * (Required)
    */
-
   @JsonProperty("id")
   @JsonPropertyDescription("The id of this planet.")
   private int id;
@@ -150,19 +149,6 @@ public class PlanetValue {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-  public PlanetValue(String name, String diameter, String rotationPeriod, String orbitalPeriod,
-                     String gravity, String climate, String terrain, String surfaceWater, String population) {
-    this.name = name;
-    this.diameter = diameter;
-    this.rotationPeriod = rotationPeriod;
-    this.orbitalPeriod = orbitalPeriod;
-    this.gravity = gravity;
-    this.climate = climate;
-    this.terrain = terrain;
-    this.surfaceWater = surfaceWater;
-    this.population = population;
-  }
-
   public PlanetValue(int id, String name, String diameter, String rotationPeriod, String orbitalPeriod,
                      String gravity, String population, String climate, String terrain, String surfaceWater) {
     this.id = id;
@@ -175,6 +161,24 @@ public class PlanetValue {
     this.climate = climate;
     this.terrain = terrain;
     this.surfaceWater = surfaceWater;
+  }
+
+  public PlanetValue(String name, String diameter, String rotationPeriod, String orbitalPeriod, String gravity,
+                     String population, String climate, String terrain, String surfaceWater, Date created, Date edited) {
+    this.name = name;
+    this.diameter = diameter;
+    this.rotationPeriod = rotationPeriod;
+    this.orbitalPeriod = orbitalPeriod;
+    this.gravity = gravity;
+    this.population = population;
+    this.climate = climate;
+    this.terrain = terrain;
+    this.surfaceWater = surfaceWater;
+    this.created = created;
+    this.edited = edited;
+  }
+
+  public PlanetValue() {
   }
 
   public PlanetValue(int id) {

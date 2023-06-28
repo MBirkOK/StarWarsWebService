@@ -19,7 +19,7 @@ export default function Vehicles() {
     }, []);
     return (
         <BodyDiv>
-            <h1>BROOOM BROOOM</h1>
+            <h1>Fahrzeuge</h1>
             <div>
                 <Table>
                     <TableHead>

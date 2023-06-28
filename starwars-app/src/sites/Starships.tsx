@@ -20,7 +20,7 @@ export default function Starships() {
 
     return (
         <BodyDiv>
-            <h1>Fliegende Schiffe</h1>
+            <h1>Raumschiffe</h1>
             <div>
                 <Table>
                     <TableHead>

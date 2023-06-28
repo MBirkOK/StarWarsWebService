@@ -24,7 +24,7 @@ export default function Films() {
     }, []);
     return (
         <BodyDiv>
-            <h1>6 coole Filme</h1>
+            <h1>Filme</h1>
             <div>
                 <Table>
                     <TableHead>

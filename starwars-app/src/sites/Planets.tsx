@@ -18,7 +18,7 @@ export default function Planets() {
     }, []);
     return (
         <BodyDiv>
-            <h1>Alle Planeten</h1>
+            <h1>Planeten</h1>
             <div>
                 <Table>
                     <TableHead>

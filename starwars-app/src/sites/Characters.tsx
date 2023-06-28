@@ -18,7 +18,7 @@ export default function Characters() {
 
     return (
         <BodyDiv>
-            <h1> 1 coole nerdige Charaktere</h1>
+            <h1>Charaktere</h1>
             <Table>
                 <TableHead>
                     <tr>

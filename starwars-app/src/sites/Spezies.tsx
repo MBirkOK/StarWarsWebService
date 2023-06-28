@@ -20,7 +20,7 @@ export default function Spezies() {
     }, []);
     return (
         <BodyDiv>
-            <h1>Alle diversen Spezien</h1>
+            <h1>Spezien</h1>
             <div>
                 <Table>
                     <TableHead>
