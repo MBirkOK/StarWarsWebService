@@ -23,7 +23,7 @@ const StyledSidebarHeader = styled.div`
 export const SidebarHeader: React.FC<SidebarHeaderProps> = ({children, rtl, ...rest}) => {
     return (
         <StyledSidebarHeader {...rest}>
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div>
             </div>
         </StyledSidebarHeader>
     );

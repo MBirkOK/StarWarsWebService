@@ -1,1 +1,0 @@
-ALTER TABLE tab_starwars_film ADD COLUMN producer varchar;

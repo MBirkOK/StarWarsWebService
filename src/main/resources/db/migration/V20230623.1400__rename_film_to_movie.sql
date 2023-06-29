@@ -1,6 +1,0 @@
-ALTER TABLE tab_starwars_film RENAME TO tab_starwars_movie;
-ALTER TABLE tab_starwars_film_people RENAME TO tab_starwars_movie_people;
-ALTER TABLE tab_starwars_film_planet RENAME TO tab_starwars_movie_planet;
-ALTER TABLE tab_starwars_film_species RENAME TO tab_starwars_movie_species;
-ALTER TABlE tab_starwars_film_starship RENAME TO tab_starwars_movie_starship;
-ALTER TABLE tab_starwars_film_vehicle RENAME TO tab_starwars_movie_vehicle;

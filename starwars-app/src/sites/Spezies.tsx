@@ -6,7 +6,6 @@ import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import {TableBody} from "@mui/material";
-import {Starship} from "../schemas/starship";
 import {get_all_spezies} from "../services/SpeziesService";
 import {Species} from "../schemas/species";
 
