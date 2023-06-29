@@ -1,6 +1,4 @@
-import {Planet} from "./planets";
-
-export interface Species {
+export interface Specie {
     "id": number,
     "name": string,
     "classification": string,

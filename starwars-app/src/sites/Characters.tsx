@@ -1,19 +1,19 @@
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
-import {BodyDiv} from "../components/BodyDiv";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableBody} from "@mui/material";
-import {SetStateAction, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {get_all_character} from "../services/CharacterService";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import {Character} from "../schemas/character";
 
 export default function Characters() {
-    const [characters, setCharacters] = useState([]);
+    const [characters, setCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
-        get_all_character().then((res: { data: SetStateAction<never[]>; }) => setCharacters(res.data))
+        get_all_character().then((res) => setCharacters(res.data))
     }, []);
 
     return (

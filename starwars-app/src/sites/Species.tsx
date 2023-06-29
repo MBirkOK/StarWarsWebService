@@ -1,21 +1,19 @@
-import {SetStateAction, useEffect, useState} from "react";
-import {BodyDiv} from "../components/BodyDiv";
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
+import {useEffect, useState} from "react";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import {TableBody} from "@mui/material";
-import {get_all_spezies} from "../services/SpeziesService";
-import {Species} from "../schemas/species";
+import {get_all_species} from "../services/SpeciesService";
+import {Specie} from "../schemas/specie";
 
-export default function Spezies() {
-    const [spezies, setSpezies] = useState([]);
+export default function Species() {
+    const [spezies, setSpezies] = useState<Specie[]>([]);
 
     useEffect(() => {
-        get_all_spezies().then((res: { data: SetStateAction<never[]>; }) => {
-            setSpezies(res.data)
-        })
+        get_all_species().then((res) => setSpezies(res.data))
     }, []);
     return (
         <BodyDiv>
@@ -38,7 +36,7 @@ export default function Spezies() {
                         </tr>
                     </TableHead>
                     <TableBody>
-                        {spezies.map((data: Species) => (
+                        {spezies.map((data: Specie) => (
                             <tr key={data.id}>
                                 <TableBodyEntry text={data.name}/>
                                 <TableBodyEntry text={data.classification}/>

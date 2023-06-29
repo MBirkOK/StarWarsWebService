@@ -2,6 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -18,12 +19,13 @@ public class PlanetService {
   @Inject
   private PlanetRepository planetRepository;
 
-  public Planet findPlanetById(int id) throws NotFoundException {
-    Optional<Planet> planetOptional = this.planetRepository.findById(id);
-    if (!planetOptional.isPresent()) {
-      throw new NotFoundException("Planet not found");
+  public Planet findPlanetById(int id) {
+    try {
+      Optional<Planet> planetOptional = this.planetRepository.findById(id);
+      return planetOptional.get();
+    } catch (NoSuchElementException e) {
+      return null;
     }
-    return planetOptional.get();
   }
 
   public List<PlanetValue> findAllPlanets() {
@@ -33,11 +35,12 @@ public class PlanetService {
   }
 
   public Planet findPlanetByName(String planetName) throws NotFoundException {
-    Optional<Planet> planet = this.planetRepository.findByName(planetName);
-    if(planet.isPresent()){
-      return planet.get();
+    try {
+      Optional<Planet> planetOptional = this.planetRepository.findByName(planetName);
+      return planetOptional.get();
+    } catch (NoSuchElementException e) {
+      return null;
     }
-    throw new NotFoundException("Planet not in Database");
   }
 
   public int createPlanet(Planet planet) {

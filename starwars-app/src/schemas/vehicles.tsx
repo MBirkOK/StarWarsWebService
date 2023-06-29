@@ -1,4 +1,4 @@
-import {Film} from "./films";
+import {Movie} from "./movies";
 import {Character} from "./character";
 
 export interface Vehicle {
@@ -9,14 +9,14 @@ export interface Vehicle {
     manufacturer: string,
     cost_in_credits: string,
     length: string,
-    crew:string,
+    crew: string,
     passengers: string,
     max_atmosphering_speed: string,
     cargo_capacity: string,
     consumables: string,
-    films: Film,
+    films: Movie,
     pilots: Character,
     url: string,
     created: string,
     edited: string
-  }
+}

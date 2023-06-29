@@ -2,6 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -25,12 +26,13 @@ public class VehicleService {
   @Inject
   private PeopleService peopleService;
 
-  public Vehicle findVehicleById(int id) throws NotFoundException {
-    Optional<Vehicle> vehicleOptional = this.vehicleRepository.findById(id);
-    if(vehicleOptional.isPresent()){
+  public Vehicle findVehicleById(int id){
+    try{
+      Optional<Vehicle> vehicleOptional = this.vehicleRepository.findById(id);
       return vehicleOptional.get();
+    } catch (NoSuchElementException e){
+      return null;
     }
-    throw new NotFoundException("Vehicle not found");
   }
 
   public List<VehicleValue> findAllVehicle() {
@@ -39,7 +41,7 @@ public class VehicleService {
     return values;
   }
 
-  public int createVehicle(VehicleValue vehicleValue, int id) throws NotFoundException {
+  public int createVehicle(VehicleValue vehicleValue, int id) {
     List<People> pilots = new ArrayList<>();
     for(Object pilotId: vehicleValue.getPilots()){
         pilots.add(this.peopleService.findCharacterById((int) pilotId));

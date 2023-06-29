@@ -1,26 +1,20 @@
-import {SetStateAction, useEffect, useState} from "react";
-import {get_all_planets} from "../services/PlanetService";
+import {useEffect, useState} from "react";
 import {TableBody} from "@mui/material";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import "../styles/main.css";
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
-import {BodyDiv} from "../components/BodyDiv";
-import {Planet} from "../schemas/planets";
-import {get_all_film} from "../services/FilmService";
-import {Film} from "../schemas/films";
-import {Character} from "../schemas/character";
-import {Starship} from "../schemas/starship";
-import {Vehicle} from "../schemas/vehicles";
-import {Species} from "../schemas/species";
+import {get_all_movies} from "../services/MovieService";
+import {Movie} from "../schemas/movies";
 
-export default function Films() {
-    const [film, setFilm] = useState([]);
+export default function Movies() {
+    const [movie, setMovie] = useState<Movie[]>([]);
 
     useEffect(() => {
-        get_all_film().then((res: { data: SetStateAction<never[]>; }) => setFilm(res.data))
+        get_all_movies().then((res) => setMovie(res.data))
     }, []);
     return (
         <BodyDiv>
@@ -37,7 +31,7 @@ export default function Films() {
                         </tr>
                     </TableHead>
                     <TableBody>
-                        {film.map((data: Film) => (
+                        {movie.map((data: Movie) => (
                             <tr key={data.episode_id}>
                                 <TableBodyEntry text={data.title}/>
                                 <TableBodyEntry text={data.director}/>

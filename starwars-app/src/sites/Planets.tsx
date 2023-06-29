@@ -1,20 +1,20 @@
-import {SetStateAction, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {get_all_planets} from "../services/PlanetService";
 import {TableBody} from "@mui/material";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import "../styles/main.css";
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
-import {BodyDiv} from "../components/BodyDiv";
 import {Planet} from "../schemas/planets";
 
 export default function Planets() {
-    const [planets, setPlanets] = useState([]);
+    const [planets, setPlanets] = useState<Planet[]>([]);
 
     useEffect(() => {
-        get_all_planets().then((res: { data: SetStateAction<never[]>; }) => setPlanets(res.data))
+        get_all_planets().then((res) => setPlanets(res.data))
     }, []);
     return (
         <BodyDiv>

@@ -1,8 +1,8 @@
-import {SetStateAction, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {get_all_starships} from "../services/StarshipService";
-import {BodyDiv} from "../components/BodyDiv";
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
@@ -10,12 +10,10 @@ import {TableBody} from "@mui/material";
 import {Starship} from "../schemas/starship";
 
 export default function Starships() {
-    const [ship, setShip] = useState([]);
+    const [ship, setShip] = useState<Starship[]>([]);
 
     useEffect(() => {
-        get_all_starships().then((res: { data: SetStateAction<never[]>; }) => {
-            setShip(res.data)
-        })
+        get_all_starships().then((res) => setShip(res.data))
     }, []);
 
     return (

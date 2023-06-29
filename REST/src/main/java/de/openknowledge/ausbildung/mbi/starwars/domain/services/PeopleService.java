@@ -2,6 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -28,12 +29,13 @@ public class PeopleService {
   @Inject
   private PeopleRepository peopleRepository;
 
-  public People findCharacterById(int id) throws NotFoundException {
-    Optional<People> peopleOptional = this.peopleRepository.findById(id);
-    if (peopleOptional.isEmpty()) {
-      throw new NotFoundException("Character not found");
+  public People findCharacterById(int id){
+    try{
+      Optional<People> peopleOptional = this.peopleRepository.findById(id);
+      return peopleOptional.get();
+    } catch (NoSuchElementException e){
+      return null;
     }
-    return peopleOptional.get();
   }
 
   public List<PeopleValue> findAllPeople() {
@@ -49,7 +51,7 @@ public class PeopleService {
     return this.peopleRepository.findAllByIdIn(pilotIds);
   }
 
-  public int createCharacter(PeopleValue peopleValue) throws NotFoundException {
+  public int createCharacter(PeopleValue peopleValue){
     Planet planet = this.planetService.findPlanetById(peopleValue.getHomeworld().getId());
     People people = new People(peopleValue, planet);
 

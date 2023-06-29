@@ -2,6 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -28,15 +29,16 @@ public class StarshipService {
   @Inject
   private PeopleService peopleService;
 
-  public Starship findStarshipById(int id) throws NotFoundException {
-    Optional<Starship> starshipOptional = this.starshipRepository.findById(id);
-    if(starshipOptional.isPresent()){
+  public Starship findStarshipById(int id) {
+    try {
+      Optional<Starship> starshipOptional = this.starshipRepository.findById(id);
       return starshipOptional.get();
+    } catch (NoSuchElementException e) {
+      return null;
     }
-    throw new NotFoundException("Starships not found in database");
   }
 
-  public List<Starship> findAllStarships(){
+  public List<Starship> findAllStarships() {
     List<Starship> starships = new ArrayList<>();
     this.starshipRepository.findAll().iterator().forEachRemaining(starships::add);
     return starships;

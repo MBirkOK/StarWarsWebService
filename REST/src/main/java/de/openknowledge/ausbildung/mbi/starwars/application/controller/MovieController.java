@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.openknowledge.ausbildung.mbi.starwars.application.dto.MovieDto;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.MovieValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.MovieService;
@@ -24,27 +25,6 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.MovieService;
 public class MovieController {
   @Inject
   private MovieService movieService;
-
-  static class FilmHolder {
-    private MovieValue fields;
-    private String model;
-    private int pk;
-
-    public FilmHolder(MovieValue fields, String model, int pk) {
-      this.fields = fields;
-      this.model = model;
-      this.pk = pk;
-    }
-
-    public MovieValue getFields() {
-      return fields;
-    }
-
-    public int getPk() {
-      return pk;
-    }
-  }
-
 
   @GetMapping(path = "/get/{id}")
   public MovieValue getFilmById(@PathVariable String id) throws NotFoundException {
@@ -57,7 +37,7 @@ public class MovieController {
   }
 
   @PostMapping(path = "/create")
-  public int createFilm(@RequestBody FilmHolder filmHolder) throws NotFoundException {
+  public int createFilm(@RequestBody MovieDto filmHolder) throws NotFoundException {
     return this.movieService.createFilm(filmHolder.getFields());
   }
 
@@ -67,8 +47,8 @@ public class MovieController {
   }
 
   @PostMapping(path = "/masscreate")
-  public void massCreate(@RequestBody List<FilmHolder> filmHolders) throws NotFoundException {
-    for(FilmHolder filmHolder: filmHolders){
+  public void massCreate(@RequestBody List<MovieDto> filmHolders) throws NotFoundException {
+    for(MovieDto filmHolder: filmHolders){
       this.createFilm(filmHolder);
     }
   }

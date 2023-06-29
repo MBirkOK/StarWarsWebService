@@ -38,7 +38,7 @@ public class SpeciesService {
     return this.speciesRepository.findById(Integer.parseInt(id)).get();
   }
 
-  public int createSpecies(SpeciesValue speciesValue, int id) throws NotFoundException {
+  public int createSpecies(SpeciesValue speciesValue, int id){
     Planet home;
     if (speciesValue.getHomeworld() == null) {
       home = null;

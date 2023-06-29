@@ -4,15 +4,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.openknowledge.ausbildung.mbi.starwars.application.dto.PlanetDto;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Planet;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
@@ -23,31 +28,11 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.services.PlanetService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class PlanetController {
 
-  static class PlanetHolder{
-   private PlanetValue fields;
-   private String model;
-   private int pk;
-
-    public PlanetHolder(PlanetValue fields, String model, int pk) {
-      this.fields = fields;
-      this.model = model;
-      this.pk = pk;
-    }
-
-    public PlanetValue getFields() {
-      return fields;
-    }
-
-    public int getPk() {
-      return pk;
-    }
-  }
-
   @Inject
   private PlanetService planetService;
 
   @GetMapping(path = "/{id}")
-  public PlanetValue findPlanetById(@PathVariable String id) throws NotFoundException {
+  public PlanetValue findPlanetById(@PathVariable String id) {
     return PlanetValue.of(this.planetService.findPlanetById(Integer.parseInt(id)));
   }
 
@@ -57,8 +42,8 @@ public class PlanetController {
   }
 
   @PostMapping(path = "/create")
-  public int createPlanet(@RequestBody PlanetHolder planetHolder) {
-    PlanetValue planetValue = planetHolder.getFields();
+  public int createPlanet(@RequestBody PlanetDto planetDto) {
+    PlanetValue planetValue = planetDto.getFields();
     String surface =planetValue.getSurfaceWater();
     String rotationPeriod = planetValue.getRotationPeriod();
     String diameter = planetValue.getDiameter();
@@ -71,7 +56,7 @@ public class PlanetController {
     if(surface.equals("unknown")){
       surface = "0.0";
     }
-    Planet planet = new Planet(planetHolder.getPk(), planetValue.getName(), Double.parseDouble(diameter),
+    Planet planet = new Planet(planetDto.getPk(), planetValue.getName(), Double.parseDouble(diameter),
       Double.parseDouble(rotationPeriod), planetValue.getGravity(), planetValue.getClimate(),
       planetValue.getTerrain(), Double.parseDouble(surface),
       planetValue.getOrbitalPeriod(), planetValue.getPopulation());
@@ -84,9 +69,9 @@ public class PlanetController {
   }
 
   @PostMapping("/masscreate")
-  public void massCreate(@RequestBody List<PlanetHolder> planetHolders){
-    for(PlanetHolder planetHolder: planetHolders){
-      this.createPlanet(planetHolder);
+  public void massCreate(@RequestBody List<PlanetDto> planetDtos){
+    for(PlanetDto planetDto : planetDtos){
+      this.createPlanet(planetDto);
     }
   }
 }

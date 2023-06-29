@@ -1,7 +1,7 @@
-import {SetStateAction, useEffect, useState} from "react";
-import {BodyDiv} from "../components/BodyDiv";
-import {Table} from "../components/Table";
-import {TableHead} from "../components/TableHead";
+import {useEffect, useState} from "react";
+import {BodyDiv} from "../resources/styled-components/BodyDiv";
+import {Table} from "../resources/styled-components/Table";
+import {TableHead} from "../resources/styled-components/TableHead";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
@@ -10,10 +10,10 @@ import {get_all_vehicle} from "../services/VehicleService";
 import {Vehicle} from "../schemas/vehicles";
 
 export default function Vehicles() {
-    const [vehicle, setVehicle] = useState([]);
+    const [vehicle, setVehicle] = useState<Vehicle[]>([]);
 
     useEffect(() => {
-        get_all_vehicle().then((res: { data: SetStateAction<never[]>; }) => {
+        get_all_vehicle().then((res) => {
             setVehicle(res.data)
         })
     }, []);

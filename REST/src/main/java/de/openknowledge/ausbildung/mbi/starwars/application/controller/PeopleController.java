@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.openknowledge.ausbildung.mbi.starwars.application.dto.PeopleDto;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PlanetValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
@@ -28,28 +29,8 @@ public class PeopleController {
   @Inject
   private PeopleService peopleService;
 
-  static class PeopleHolder {
-    private PeopleValue fields;
-    private String model;
-    private int pk;
-
-    public PeopleHolder(PeopleValue fields, String model, int pk) {
-      this.fields = fields;
-      this.model = model;
-      this.pk = pk;
-    }
-
-    public PeopleValue getFields() {
-      return fields;
-    }
-
-    public int getPk() {
-      return pk;
-    }
-  }
-
   @GetMapping(path = "/get/{id}")
-  public PeopleValue findCharacterFindById(@PathVariable String id) throws NotFoundException {
+  public PeopleValue findCharacterFindById(@PathVariable String id){
     return PeopleValue.of(this.peopleService.findCharacterById(Integer.parseInt(id)));
   }
 
@@ -59,7 +40,7 @@ public class PeopleController {
   }
 
   @PostMapping(path = "/create")
-  public int createCharacter(@RequestBody PeopleHolder peopleHolder) throws NotFoundException {
+  public int createCharacter(@RequestBody PeopleDto peopleHolder){
     PeopleValue peopleValue = new PeopleValue(peopleHolder.getPk(), peopleHolder.getFields().getName(),
       peopleHolder.getFields().getHeight(), peopleHolder.getFields().getMass(), peopleHolder.getFields().getHairColor(),
       peopleHolder.getFields().getSkinColor(), peopleHolder.getFields().getEyeColor(),
@@ -74,8 +55,8 @@ public class PeopleController {
   }
 
   @PostMapping(path = "/masscreate")
-  public void massCreate(@RequestBody List<PeopleHolder> peopleHolders) throws NotFoundException {
-    for (PeopleHolder peopleHolder : peopleHolders) {
+  public void massCreate(@RequestBody List<PeopleDto> peopleHolders){
+    for (PeopleDto peopleHolder : peopleHolders) {
       this.createCharacter(peopleHolder);
     }
   }
