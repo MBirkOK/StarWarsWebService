@@ -2,6 +2,7 @@ package de.openknowledge.ausbildung.mbi.starwars.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -40,7 +41,7 @@ public class MovieService {
   @Inject
   private VehicleService vehicleService;
 
-  public int createFilm(MovieValue movieValue) throws NotFoundException {
+  public int createFilm(MovieValue movieValue) {
 
     List<People> peopleList = new ArrayList<>();
     for (Object object : movieValue.getCharacters()) {
@@ -72,11 +73,13 @@ public class MovieService {
   }
 
   public MovieValue findFilmById(String id) throws NotFoundException {
-    Optional<Movie> filmOptional = this.filmRepository.findById(Integer.parseInt(id));
-    if (filmOptional.isEmpty()) {
+
+    try{
+      Optional<Movie> filmOptional = this.filmRepository.findById(Integer.parseInt(id));
+      return Movie.of(filmOptional.get());
+    } catch(NoSuchElementException e) {
       throw new NotFoundException("Film not found");
     }
-    return Movie.of(filmOptional.get());
   }
 
   public List<MovieValue> findAllFilm() {

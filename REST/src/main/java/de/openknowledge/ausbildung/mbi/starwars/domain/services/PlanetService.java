@@ -34,7 +34,7 @@ public class PlanetService {
     return planets;
   }
 
-  public Planet findPlanetByName(String planetName) throws NotFoundException {
+  public Planet findPlanetByName(String planetName) {
     try {
       Optional<Planet> planetOptional = this.planetRepository.findByName(planetName);
       return planetOptional.get();
