@@ -29,42 +29,42 @@ public class PeopleService {
   @Inject
   private PeopleRepository peopleRepository;
 
-  public People findCharacterById(int id){
-    try{
+  public People findCharacterById(int id) {
       Optional<People> peopleOptional = this.peopleRepository.findById(id);
-      return peopleOptional.get();
-    } catch (NoSuchElementException e){
-      return null;
+      if (peopleOptional.isPresent()) {
+        return peopleOptional.get();
+      } else {
+        throw new NoSuchElementException();
+      }
+    }
+
+    public List<PeopleValue> findAllPeople () {
+      List<PeopleValue> peoples = new ArrayList<>();
+      this.peopleRepository.findAll().forEach(people -> peoples.add(PeopleValue.of(people)));
+      return peoples;
+    }
+
+    public List<People> findAllForIds (List < Integer > pilotIds) {
+      if (pilotIds.isEmpty()) {
+        return new ArrayList<>();
+      }
+      return this.peopleRepository.findAllByIdIn(pilotIds);
+    }
+
+    public int createCharacter (PeopleValue peopleValue){
+      Planet planet = this.planetService.findPlanetById(peopleValue.getHomeworld().getId());
+      People people = new People(peopleValue, planet);
+
+      try {
+        this.peopleRepository.save(people);
+      } catch (Exception e) {
+        Log.error(e.getMessage());
+        throw new DataAccessResourceFailureException("Could not save character to database");
+      }
+      return people.getId();
+    }
+
+    public void deleteCharacter ( int id){
+      this.peopleRepository.deleteById(id);
     }
   }
-
-  public List<PeopleValue> findAllPeople() {
-    List<PeopleValue> peoples = new ArrayList<>();
-    this.peopleRepository.findAll().forEach(people -> peoples.add(PeopleValue.of(people)));
-    return peoples;
-  }
-
-  public List<People> findAllForIds(List<Integer> pilotIds) {
-    if (pilotIds.isEmpty()) {
-      return new ArrayList<>();
-    }
-    return this.peopleRepository.findAllByIdIn(pilotIds);
-  }
-
-  public int createCharacter(PeopleValue peopleValue){
-    Planet planet = this.planetService.findPlanetById(peopleValue.getHomeworld().getId());
-    People people = new People(peopleValue, planet);
-
-    try {
-      this.peopleRepository.save(people);
-    } catch (Exception e) {
-      Log.error(e.getMessage());
-      throw new DataAccessResourceFailureException("Could not save character to database");
-    }
-    return people.getId();
-  }
-
-  public void deleteCharacter(int id) {
-    this.peopleRepository.deleteById(id);
-  }
-}

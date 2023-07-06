@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.PeopleValue;
 import de.openknowledge.ausbildung.mbi.starwars.application.values.VehicleValue;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.People;
+import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Starship;
 import de.openknowledge.ausbildung.mbi.starwars.domain.entities.Vehicle;
 import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundException;
 import de.openknowledge.ausbildung.mbi.starwars.infrastructure.PeopleRepository;
@@ -27,11 +28,11 @@ public class VehicleService {
   private PeopleService peopleService;
 
   public Vehicle findVehicleById(int id){
-    try{
-      Optional<Vehicle> vehicleOptional = this.vehicleRepository.findById(id);
+    Optional<Vehicle> vehicleOptional = this.vehicleRepository.findById(id);
+    if (vehicleOptional.isPresent()) {
       return vehicleOptional.get();
-    } catch (NoSuchElementException e){
-      return null;
+    } else {
+      throw new NoSuchElementException();
     }
   }
 

@@ -24,7 +24,7 @@ public class PlanetService {
       Optional<Planet> planetOptional = this.planetRepository.findById(id);
       return planetOptional.get();
     } catch (NoSuchElementException e) {
-      return null;
+      throw new NoSuchElementException(e);
     }
   }
 

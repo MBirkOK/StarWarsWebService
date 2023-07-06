@@ -45,23 +45,23 @@ public class MovieService {
 
     List<People> peopleList = new ArrayList<>();
     for (Object object : movieValue.getCharacters()) {
-      peopleList.add(this.peopleService.findCharacterById((int) object));
+      peopleList.add(this.peopleService.findCharacterById((int)object));
     }
     List<Planet> planets = new ArrayList<>();
     for (Object object : movieValue.getPlanets()) {
-      planets.add(this.planetService.findPlanetById((int) object));
+      planets.add(this.planetService.findPlanetById((int)object));
     }
     List<Species> species = new ArrayList<>();
     for (Object object : movieValue.getSpecies()) {
-      species.add(this.speciesService.findSpecies(String.valueOf((int) object)));
+      species.add(this.speciesService.findSpecies(String.valueOf((int)object)));
     }
     List<Starship> starships = new ArrayList<>();
     for (Object object : movieValue.getStarships()) {
-      starships.add(this.starshipService.findStarshipById((int) object));
+      starships.add(this.starshipService.findStarshipById((int)object));
     }
     List<Vehicle> vehicles = new ArrayList<>();
     for (Object object : movieValue.getVehicles()) {
-      vehicles.add(this.vehicleService.findVehicleById((int) object));
+      vehicles.add(this.vehicleService.findVehicleById((int)object));
     }
     Movie movie = MovieValue.of(movieValue, peopleList, planets, species, starships, vehicles);
     try {
@@ -73,11 +73,10 @@ public class MovieService {
   }
 
   public MovieValue findFilmById(String id) throws NotFoundException {
-
-    try{
-      Optional<Movie> filmOptional = this.filmRepository.findById(Integer.parseInt(id));
+    Optional<Movie> filmOptional = this.filmRepository.findById(Integer.parseInt(id));
+    if (filmOptional.isPresent()) {
       return Movie.of(filmOptional.get());
-    } catch(NoSuchElementException e) {
+    } else {
       throw new NotFoundException("Film not found");
     }
   }

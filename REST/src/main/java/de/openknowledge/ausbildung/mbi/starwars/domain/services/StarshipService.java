@@ -30,11 +30,11 @@ public class StarshipService {
   private PeopleService peopleService;
 
   public Starship findStarshipById(int id) {
-    try {
-      Optional<Starship> starshipOptional = this.starshipRepository.findById(id);
+    Optional<Starship> starshipOptional = this.starshipRepository.findById(id);
+    if (starshipOptional.isPresent()) {
       return starshipOptional.get();
-    } catch (NoSuchElementException e) {
-      return null;
+    } else {
+      throw new NoSuchElementException();
     }
   }
 
