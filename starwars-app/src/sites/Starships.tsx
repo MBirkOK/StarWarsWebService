@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import {get_all_starships} from "../services/StarshipService";
 import {BodyDiv} from "../resources/styled-components/BodyDiv";
-import {Table} from "../resources/styled-components/Table";
-import {TableHead} from "../resources/styled-components/TableHead";
+import {Table, TableHead} from "../resources/styled-components/Table";
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {TableBodyEntry} from "../components/TableBodyEntry";
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";

@@ -20,7 +20,7 @@ import de.openknowledge.ausbildung.mbi.starwars.domain.exceptions.NotFoundExcept
 import de.openknowledge.ausbildung.mbi.starwars.domain.services.MovieService;
 
 @RestController
-@RequestMapping(path = "/film")
+@RequestMapping(path = "/movie")
 @CrossOrigin(origins = "http://localhost:3000")
 public class MovieController {
   @Inject
@@ -32,12 +32,12 @@ public class MovieController {
   }
 
   @GetMapping
-  public List<MovieValue> getAllFilm(){
+  public List<MovieValue> getAllFilm() {
     return this.movieService.findAllFilm();
   }
 
   @PostMapping(path = "/create")
-  public int createFilm(@RequestBody MovieDto filmHolder) throws NotFoundException {
+  public int createFilm(@RequestBody MovieDto filmHolder) {
     return this.movieService.createFilm(filmHolder.getFields());
   }
 
@@ -47,8 +47,8 @@ public class MovieController {
   }
 
   @PostMapping(path = "/masscreate")
-  public void massCreate(@RequestBody List<MovieDto> filmHolders) throws NotFoundException {
-    for(MovieDto filmHolder: filmHolders){
+  public void massCreate(@RequestBody List<MovieDto> filmHolders) {
+    for (MovieDto filmHolder : filmHolders) {
       this.createFilm(filmHolder);
     }
   }

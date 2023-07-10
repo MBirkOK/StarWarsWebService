@@ -1,7 +1,6 @@
 import {TableHeadEntry} from "../components/TableHeadEntry";
 import {BodyDiv} from "../resources/styled-components/BodyDiv";
-import {Table} from "../resources/styled-components/Table";
-import {TableHead} from "../resources/styled-components/TableHead";
+import {Table, TableHead} from "../resources/styled-components/Table";
 import {TableBody} from "@mui/material";
 import {useEffect, useState} from "react";
 import {get_all_character} from "../services/CharacterService";
